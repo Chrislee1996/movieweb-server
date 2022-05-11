@@ -4,7 +4,7 @@ const commentSchema = require('./comment')
 
 const topicSchema = new mongoose.Schema(
 	{
-		Header: {
+		header: {
 			type: String,
 			required: true,
 		},

@@ -39,4 +39,22 @@ router.post('/comments/:topicId', (req, res, next) => {
             .catch(next)
         })
 
+router.patch('/comments/:topicId/:commentId', requireToken, removeBlanks, (req, res, next) => {
+    const commentId = req.params.commentId
+    const topicId = req.params.topicId
+    Topic.findById(topicId)
+        .then(handle404)
+        .then(topic => {
+            const theTopic = topic.comments.id(commentId)
+            // requireOwnership(req, course)
+            theTopic.set(req.body.comment)
+
+            return topic.save()
+        })
+            .then(() => res.sendStatus(204))
+            .catch(next)
+        
+        })
+
+
 module.exports = router

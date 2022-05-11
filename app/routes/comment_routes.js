@@ -25,6 +25,18 @@ const requireToken = passport.authenticate('bearer', { session: false })
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
-
+router.post('/comments/:topicId', (req, res, next) => {
+    const comment = req.body.comment
+    const topicId = req.params.topicId
+    Topic.findById(topicId)
+        .then(handle404)
+            .then((topic) => {
+                topic.comments.push(comment)
+                return topic.save()
+            })
+            .then(topic => res.status(201).json({ topic: topic }))
+            // catch errors and send to the handler
+            .catch(next)
+        })
 
 module.exports = router

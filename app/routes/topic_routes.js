@@ -46,7 +46,7 @@ router.get('/topics', (req, res, next) => {
 router.get('/topics/:id', (req, res, next) => {
 	// req.params.id will be set based on the `:id` in the route
 	Topic.findById(req.params.id)
-		.then(handle404)
+		.then(handle404) 
 		// if `findById` is succesful, respond with 200 and "topic" JSON
 		.then((topic) => res.status(200).json({ topic: topic.toObject() }))
 		// if an error occurs, pass it to the handler

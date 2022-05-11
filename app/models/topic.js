@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+const commentSchema = require('./comment')
+
 const topicSchema = new mongoose.Schema(
 	{
 		Header: {
@@ -14,6 +16,7 @@ const topicSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
 		},
+		comments:[commentSchema]
 	},
 	{
 		timestamps: true,

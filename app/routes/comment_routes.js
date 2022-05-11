@@ -37,7 +37,7 @@ router.post('/comments/:topicId', (req, res, next) => {
             .then(topic => res.status(201).json({ topic: topic }))
             // catch errors and send to the handler
             .catch(next)
-        })
+    })
 
 router.patch('/comments/:topicId/:commentId', requireToken, removeBlanks, (req, res, next) => {
     const commentId = req.params.commentId
@@ -45,16 +45,38 @@ router.patch('/comments/:topicId/:commentId', requireToken, removeBlanks, (req, 
     Topic.findById(topicId)
         .then(handle404)
         .then(topic => {
-            const theTopic = topic.comments.id(commentId)
+            const theComment = topic.comments.id(commentId)
             // requireOwnership(req, course)
-            theTopic.set(req.body.comment)
+            theComment.set(req.body.comment)
 
             return topic.save()
         })
             .then(() => res.sendStatus(204))
             .catch(next)
         
-        })
+    })
 
+router.delete('/comments/:topicId/:commentId', requireToken, (req, res, next) => {
+    // saving both ids to variables for easy ref later
+    const commentId = req.params.commentId
+    const topicId = req.params.topicId
+    // find the product in the db
+    Topic.findById(topicId)
+        // if product not found throw 404
+        .then(handle404)
+        .then(topic => {
+            // get the specific subdocument by its id
+            const theComment = topic.comments.id(commentId)
+            // requireOwnership(req, course)
+            // call remove on the review we got on the line above requireOwnership
+            theComment.remove()
+            // return the saved product
+            return topic.save()
+        })
+        // send 204 no content
+        .then(() => res.sendStatus(204))
+        .catch(next)
+
+    })
 
 module.exports = router

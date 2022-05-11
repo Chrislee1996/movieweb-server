@@ -109,4 +109,5 @@ router.delete('/topics/:id', requireToken, (req, res, next) => {
 		.catch(next)
 })
 
+
 module.exports = router

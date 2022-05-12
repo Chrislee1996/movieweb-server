@@ -25,5 +25,44 @@ router.get('/:apiKey', (req,res,next) => {
         .catch(next)
 })
 
+//fetches popular movies
+router.get('/popular/:apiKey', (req,res,next) => {
+    const apiKey = req.params.apiKey
+    console.log(req.params.apiKey,'apikey')
+    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`)
+    // fetch(url)
+        .then((response)=>{
+            res.status(201).json(response.data)
+        })
+        .catch(next)
+})
+
+//fetches upcoming movies
+router.get('/upcoming/:apiKey', (req,res,next) => {
+    const apiKey = req.params.apiKey
+    console.log(req.params.apiKey,'apikey')
+    axios.get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=en-US&page=1`)
+    // fetch(url)
+        .then((response)=>{
+            res.status(201).json(response.data)
+        })
+        .catch(next)
+})
+
+
+//fetches most popular movies
+router.get('/upcoming/:apiKey', (req,res,next) => {
+    const apiKey = req.params.apiKey
+    console.log(req.params.apiKey,'apikey')
+    axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`)
+    // fetch(url)
+        .then((response)=>{
+            res.status(201).json(response.data)
+        })
+        .catch(next)
+})
+
+
+
 
 module.exports = router

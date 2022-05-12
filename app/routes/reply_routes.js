@@ -45,23 +45,23 @@ router.post('/replies/:topicId/:commentId', (req, res, next) => {
         })
 
 
-router.delete('/comments/:courseId/:reviewId/:commentId', requireToken,(req, res, next) => {
-    const courseId = req.params.courseId
-    const reviewId = req.params.reviewId
+router.delete('/replies/:topicId/:commentId/:replyId',(req, res, next) => {
+    const topicId = req.params.topicId
     const commentId = req.params.commentId
-    Course.findById(courseId)
+    const replyId = req.params.replyId
+    Topic.findById(topicId)
         // if product not found throw 404
         .then(handle404)
-        .then(course => {
-            console.log(courseId, 'here is my courseId')
-            const theReview = course.reviews.id(reviewId)
-            console.log(theReview)
-            const theComment = theReview.comments.id(commentId)
-            console.log(theComment,'here is theComment on line 42')
+        .then(topic => {
+            // console.log(topicId, 'here is my topicId')
+            const theComment = topic.comments.id(commentId)
+            console.log(theComment,'the comment')
+            const theReply = theComment.reply.id(replyId)
+            console.log(theReply,'here is theReply on line 60')
             // requireOwnership(req, review)
-            theComment.remove()
+            theReply.remove()
             // return the saved product
-            return course.save()
+            return topic.save()
         })
         // send 204 no content
         .then(() => res.sendStatus(204))    

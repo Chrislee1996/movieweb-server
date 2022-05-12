@@ -8,6 +8,8 @@ const topicRoutes = require('./app/routes/topic_routes')
 const commentRoutes = require('./app/routes/comment_routes')
 const replyRoutes = require('./app/routes/reply_routes')
 const userRoutes = require('./app/routes/user_routes')
+const movieRoutes = require('./app/routes/movie_routes')
+
 
 // require middleware
 const errorHandler = require('./lib/error_handler')
@@ -67,6 +69,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // register route files
+app.use(movieRoutes)
 app.use(topicRoutes)
 app.use(commentRoutes)
 app.use(replyRoutes)

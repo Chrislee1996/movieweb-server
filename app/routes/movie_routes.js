@@ -16,7 +16,6 @@ const router = express.Router()
 //Fetches all the movies currently playing
 router.get('/:apiKey', (req,res,next) => {
     const apiKey = req.params.apiKey
-    console.log(req.params.apiKey,'apikey')
     axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=1`)
     // fetch(url)
         .then((response)=>{
@@ -51,7 +50,7 @@ router.get('/upcoming/:apiKey', (req,res,next) => {
 
 
 //fetches most popular movies
-router.get('/upcoming/:apiKey', (req,res,next) => {
+router.get('/toprated/:apiKey', (req,res,next) => {
     const apiKey = req.params.apiKey
     console.log(req.params.apiKey,'apikey')
     axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`)

@@ -27,8 +27,9 @@ const router = express.Router()
 
 // INDEX
 // GET /topics
-router.get('/topics', (req, res, next) => {
+router.get('/topics/all', (req, res, next) => {
 	Topic.find()
+	.populate('owner')
 		.then((topics) => {
 			// `topics` will be an array of Mongoose documents
 			// we want to convert each one to a POJO, so we use `.map` to
@@ -46,6 +47,7 @@ router.get('/topics', (req, res, next) => {
 router.get('/topics/:id', (req, res, next) => {
 	// req.params.id will be set based on the `:id` in the route
 	Topic.findById(req.params.id)
+	.populate('owner')
 		.then(handle404) 
 		// if `findById` is succesful, respond with 200 and "topic" JSON
 		.then((topic) => res.status(200).json({ topic: topic.toObject() }))
@@ -94,12 +96,12 @@ router.patch('/topics/:id', requireToken, removeBlanks, (req, res, next) => {
 
 // DESTROY
 // DELETE /topics/5a7db6c74d55bc51bdf39793
-router.delete('/topics/:id', requireToken, (req, res, next) => {
+router.delete('/topics/:id', (req, res, next) => {
 	Topic.findById(req.params.id)
 		.then(handle404)
 		.then((topic) => {
 			// throw an error if current user doesn't own `topic`
-			requireOwnership(req, topic)
+			// requireOwnership(req, topic)
 			// delete the topic ONLY IF the above didn't throw
 			topic.deleteOne()
 		})
